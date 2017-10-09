@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiyou100.dao.PropertiesDao">
+	<!-- 添加属性 -->
+	<insert id="addProperties" parameterType="properties">
+		insert into properties(shape,tincture,purity,liquor,smell,taste,leaf,level,status)
+		values
+		(#{shape},#{tincture},#{purity},#{liquor},#{smell},#{taste},#{leaf},1,1)
+	</insert>
+	<!-- 投票 -->
+	<update id="voteForTea" parameterType="tea">
+		update tea set
+		ticket=ticket+1 where id=#{id}
+	</update>
+	<!-- 查询所有属性的数量-->
+	<select id="getListCount" resultType="integer">
+		select count(id) from
+		properties where status = 1
+	</select>
+	<!-- 查询属性 -->
+	<select id="listProperties" parameterType="com.zhiyou100.vo.PageVo" resultType="properties">
+		select
+		id,level,gmt_create,shape,tincture,purity,liquor,smell,taste,leaf 
+		from properties
+		where status = 1
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- 查询属性根据等级升序 -->
+	<select id="listPropertiesByLevelUp" parameterType="com.zhiyou100.vo.PageVo" resultType="properties">
+		select
+		id,level,gmt_create,shape,tincture,purity,liquor,smell,taste,leaf 
+		from properties
+		where status = 1 
+		order by level 
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- 查询属性根据等级降序 -->
+	<select id="listPropertiesByLevelDown" parameterType="com.zhiyou100.vo.PageVo" resultType="properties">
+		select
+		id,level,gmt_create,shape,tincture,purity,liquor,smell,taste,leaf
+		from properties
+		where status = 1 
+		order by level desc 
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- 查询属性根据时间升序 -->
+	<select id="listPropertiesByTimeUp" parameterType="com.zhiyou100.vo.PageVo" resultType="properties">
+		selcet
+		id,level,gmt_create,shape,tincture,purity,liquor,smell,taste,leaf
+		from properties
+		where status = 1 
+		order by gmt_create  
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- 查询属性根据时间降序 -->
+	<select id="listPropertiesByTimeDown" parameterType="com.zhiyou100.vo.PageVo" resultType="properties">
+		selcet
+		id,level,gmt_create,shape,tincture,purity,liquor,smell,taste,leaf
+		from properties
+		where status = 1 
+		order by gmt_create desc 
+		limit #{startIndex},#{pageSize}
+	</select>
+</mapper>
